@@ -1,0 +1,910 @@
+PROJECT NAME:
+CODEX – AI Interview Simulator
+
+PROJECT TYPE:
+AI-Powered Full-Stack Interview Practice Platform
+
+OBJECTIVE:
+Develop a complete web-based AI Interview Simulator that provides realistic
+Technical and HR mock interviews for students and job seekers.
+
+The platform must generate interview questions, collect candidate answers,
+evaluate answers using AI, calculate scores, provide detailed feedback,
+identify skill gaps, recommend learning resources, and maintain interview
+history and performance analytics.
+
+==================================================
+1. TEAM STRUCTURE
+==================================================
+
+Team Name:
+CODEX
+
+Team Members:
+
+1. Iswarya Lakshmi
+   Role: Team Lead / Project Integration
+
+2. Praveen Kumar
+   Role: Frontend Developer – Login & Register
+
+3. Frontend Dashboard Developer
+   Role: Dashboard & Interview UI
+
+4. Durga
+   Role: Backend Developer
+
+5. Sri Prithiya
+   Role: Database Developer
+
+6. Gragori
+   Role: AI/ML Developer
+
+7. Kaviselvi
+   Role: Testing / QA
+
+8. Prabakaran
+   Role: Deployment
+
+If the project is officially limited to 7 members, combine the Frontend
+Dashboard and Deployment responsibilities according to the team's final
+assignment.
+
+==================================================
+2. TECHNOLOGY STACK
+==================================================
+
+FRONTEND:
+- React.js
+- Vite
+- JavaScript
+- Tailwind CSS
+- React Router DOM
+- Axios
+- Recharts
+- Lucide React
+
+BACKEND:
+- Node.js
+- Express.js
+- JavaScript
+- REST API
+- JWT
+- bcrypt
+- CORS
+- dotenv
+
+DATABASE:
+- Firebase Firestore
+- Firebase Admin SDK
+
+AI:
+- AI API integration
+- AI question generation
+- AI answer evaluation
+- AI scoring
+- AI feedback generation
+- Skill-gap analysis
+- Learning recommendations
+
+DEVELOPMENT:
+- Git
+- GitHub
+- VS Code / Antigravity
+
+DEPLOYMENT:
+- Vercel – Frontend
+- Render – Backend
+- Firebase – Database
+
+IMPORTANT:
+Do NOT use MongoDB or Mongoose.
+Firebase Firestore is the primary database.
+
+==================================================
+3. CORE MODULES
+==================================================
+
+Build these modules:
+
+1. Landing Page
+2. Authentication
+3. Candidate Profile
+4. Dashboard
+5. Interview Selection
+6. Technical Interview
+7. HR Interview
+8. AI Question Generation
+9. Answer Submission
+10. AI Answer Evaluation
+11. Scoring
+12. Feedback
+13. Skill Gap Analysis
+14. Learning Recommendations
+15. Results Dashboard
+16. Interview History
+17. Performance Analytics
+18. Testing
+19. Deployment
+
+==================================================
+4. CANDIDATE FLOW
+==================================================
+
+Landing Page
+     ↓
+Register / Login
+     ↓
+Candidate Profile
+     ↓
+Dashboard
+     ↓
+Select Interview
+     ↓
+Select Technical / HR
+     ↓
+Select Technology
+     ↓
+Select Difficulty
+     ↓
+Start Interview
+     ↓
+AI Generates Questions
+     ↓
+Candidate Answers
+     ↓
+AI Evaluates Answers
+     ↓
+Score + Feedback
+     ↓
+Skill Gap Analysis
+     ↓
+Learning Recommendations
+     ↓
+Results Dashboard
+     ↓
+Interview History
+
+==================================================
+5. FRONTEND DEVELOPMENT
+==================================================
+
+Create a modern, professional, responsive UI.
+
+Pages:
+
+/                       Landing
+/login                  Login
+/register               Register
+/dashboard              Dashboard
+/profile                Candidate Profile
+/interview/setup        Interview Setup
+/interview/technical    Technical Interview
+/interview/hr           HR Interview
+/results/:id            Results
+/history                Interview History
+/skills                 Skill Improvement
+
+Frontend features:
+
+- Responsive design
+- Navigation bar
+- Sidebar dashboard
+- Authentication forms
+- Candidate profile
+- Interview setup
+- Question display
+- Answer submission
+- Interview timer
+- Progress indicator
+- Score cards
+- Feedback cards
+- Performance charts
+- Skill improvement cards
+- Interview history
+- Loading states
+- Error states
+- Empty states
+- Success notifications
+
+Reusable components:
+
+Navbar
+Sidebar
+Button
+Input
+Select
+Modal
+QuestionCard
+AnswerBox
+Timer
+ProgressBar
+ScoreCard
+FeedbackCard
+InterviewCard
+PerformanceChart
+SkillCard
+ProtectedRoute
+LoadingSpinner
+ErrorMessage
+
+Do not hardcode permanent interview data.
+Use backend REST APIs through Axios.
+
+Frontend environment:
+
+VITE_API_URL=http://localhost:5000/api
+
+==================================================
+6. BACKEND DEVELOPMENT
+==================================================
+
+Create a secure Express.js REST API.
+
+Backend modules:
+
+Authentication
+Candidate Profile
+Interview Management
+Question Management
+Answer Submission
+AI Evaluation
+Results
+Interview History
+Recommendations
+
+API endpoints:
+
+POST /api/auth/register
+POST /api/auth/login
+
+GET /api/profile
+PUT /api/profile
+
+POST /api/interviews
+GET /api/interviews
+GET /api/interviews/:id
+
+POST /api/questions/generate
+
+POST /api/answers
+
+POST /api/evaluation
+
+GET /api/results/:interviewId
+
+GET /api/history
+
+GET /api/recommendations
+
+Implement:
+
+- JWT authentication
+- bcrypt password hashing
+- Protected routes
+- Request validation
+- CORS
+- Centralized error handling
+- HTTP status codes
+- Environment variables
+- Secure API responses
+- Authentication middleware
+
+Use this structure:
+
+backend/
+├── config/
+│   └── firebase.js
+├── controllers/
+├── routes/
+├── middleware/
+├── services/
+├── utils/
+├── validators/
+├── server.js
+├── .env
+├── .env.example
+└── package.json
+
+==================================================
+7. FIREBASE DATABASE
+==================================================
+
+Use Firebase Firestore.
+
+Collections:
+
+students
+interviews
+questions
+answers
+scores
+feedback
+learningResources
+
+STUDENT:
+
+{
+  name,
+  email,
+  passwordHash,
+  education,
+  skills,
+  experience,
+  createdAt,
+  updatedAt
+}
+
+INTERVIEW:
+
+{
+  studentId,
+  type,
+  technology,
+  difficulty,
+  totalQuestions,
+  status,
+  score,
+  createdAt,
+  updatedAt
+}
+
+QUESTION:
+
+{
+  interviewId,
+  question,
+  category,
+  difficulty,
+  order,
+  createdAt
+}
+
+ANSWER:
+
+{
+  interviewId,
+  questionId,
+  studentId,
+  answer,
+  submittedAt
+}
+
+SCORE:
+
+{
+  interviewId,
+  questionId,
+  score,
+  correctness,
+  relevance,
+  communication,
+  createdAt
+}
+
+FEEDBACK:
+
+{
+  interviewId,
+  strengths,
+  weaknesses,
+  suggestions,
+  skillGaps,
+  createdAt
+}
+
+LEARNING RESOURCE:
+
+{
+  topic,
+  title,
+  description,
+  url,
+  createdAt
+}
+
+Use Firebase Admin SDK in the backend.
+
+Never expose Firebase Admin credentials to the frontend.
+
+Environment variables:
+
+FIREBASE_PROJECT_ID=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_PRIVATE_KEY=
+
+JWT_SECRET=
+AI_API_KEY=
+FRONTEND_URL=
+
+Never commit .env to GitHub.
+
+==================================================
+8. AI DEVELOPMENT
+==================================================
+
+Create a dedicated AI service:
+
+services/aiService.js
+
+AI must provide:
+
+1. Question Generation
+2. Technical Question Generation
+3. HR Question Generation
+4. Difficulty-based Question Generation
+5. Answer Evaluation
+6. Score Generation
+7. Feedback Generation
+8. Strength Analysis
+9. Weakness Analysis
+10. Skill Gap Detection
+11. Learning Recommendations
+
+Question generation input:
+
+- Interview type
+- Technology
+- Difficulty
+- Number of questions
+- Candidate skills
+
+Question generation output:
+
+{
+  question,
+  category,
+  difficulty
+}
+
+Answer evaluation must analyze:
+
+- Correctness
+- Relevance
+- Completeness
+- Technical understanding
+- Communication
+- Reasoning
+
+Return structured data:
+
+{
+  score,
+  correctness,
+  relevance,
+  communication,
+  strengths,
+  weaknesses,
+  suggestions,
+  skillGaps
+}
+
+The AI service must not expose API keys to the frontend.
+
+==================================================
+9. INTERVIEW TYPES
+==================================================
+
+TECHNICAL INTERVIEW:
+
+Support technologies such as:
+
+- Java
+- Python
+- JavaScript
+- React
+- Node.js
+- SQL
+- HTML
+- CSS
+- Data Structures
+- Algorithms
+
+Allow future technologies to be added.
+
+Technical questions can include:
+
+- Conceptual questions
+- Programming questions
+- Debugging questions
+- Scenario-based questions
+- Problem-solving questions
+
+HR INTERVIEW:
+
+Include:
+
+- Tell me about yourself
+- Strengths
+- Weaknesses
+- Teamwork
+- Leadership
+- Conflict management
+- Situational questions
+- Career goals
+- Behavioral questions
+
+==================================================
+10. RESULTS DASHBOARD
+==================================================
+
+Display:
+
+Overall Score
+Technical Score
+HR Score
+Question-wise Scores
+Correctness
+Relevance
+Communication
+Strengths
+Weaknesses
+AI Feedback
+Skill Gaps
+Improvement Suggestions
+Learning Recommendations
+
+Add visual charts for:
+
+- Score distribution
+- Skill performance
+- Interview progress
+- Previous interview comparison
+
+==================================================
+11. INTERVIEW HISTORY
+==================================================
+
+Store every completed interview.
+
+Display:
+
+- Date
+- Interview type
+- Technology
+- Difficulty
+- Score
+- Status
+
+Allow candidate to open previous results.
+
+==================================================
+12. SKILL IMPROVEMENT
+==================================================
+
+Analyze interview performance.
+
+Example:
+
+Weak Skill:
+Java OOP
+
+Recommendation:
+Practice inheritance, polymorphism, abstraction and encapsulation.
+
+Weak Skill:
+SQL Joins
+
+Recommendation:
+Practice INNER JOIN, LEFT JOIN and complex queries.
+
+Show:
+
+- Weak topics
+- Recommended topics
+- Learning resources
+- Improvement suggestions
+- Progress
+
+==================================================
+13. SECURITY
+==================================================
+
+Implement:
+
+- JWT authentication
+- bcrypt password hashing
+- Protected APIs
+- Input validation
+- CORS configuration
+- Secure environment variables
+- No API keys in frontend
+- No Firebase Admin credentials in frontend
+- Authorization checks
+- Proper error responses
+
+Users must only access their own:
+
+- Profile
+- Interviews
+- Answers
+- Results
+- Feedback
+- History
+
+==================================================
+14. GITHUB BRANCH STRUCTURE
+==================================================
+
+main
+│
+├── feature/frontend-login
+├── feature/frontend-dashboard
+├── feature/backend
+├── feature/database
+├── feature/ai
+├── feature/testing
+├── feature/deployment
+└── feature/integration
+
+Workflow:
+
+Developer
+    ↓
+Feature Branch
+    ↓
+Code
+    ↓
+git add .
+    ↓
+git commit
+    ↓
+git push
+    ↓
+Pull Request
+    ↓
+Code Review
+    ↓
+Team Lead Approval
+    ↓
+Merge → main
+
+Never directly push development code to main.
+
+==================================================
+15. TESTING
+==================================================
+
+Testing team must test:
+
+AUTHENTICATION:
+- Register
+- Login
+- Logout
+- Invalid credentials
+- Duplicate email
+- Protected routes
+
+FRONTEND:
+- Forms
+- Navigation
+- Responsive design
+- Dashboard
+- Interview flow
+- Results
+
+BACKEND:
+- All API endpoints
+- Validation
+- Authentication
+- Authorization
+- Error handling
+
+DATABASE:
+- Firestore connection
+- Document creation
+- Document retrieval
+- Data relationships
+- Invalid data
+
+AI:
+- Question generation
+- Answer evaluation
+- Scores
+- Feedback
+- Skill recommendations
+
+INTEGRATION:
+- Frontend → Backend
+- Backend → Firebase
+- Backend → AI
+- Complete interview workflow
+
+==================================================
+16. TESTING WORKFLOW
+==================================================
+
+Feature Development
+       ↓
+Developer Testing
+       ↓
+Pull Request
+       ↓
+QA Testing
+       ↓
+Bug Report
+       ↓
+Developer Fix
+       ↓
+Retest
+       ↓
+Approved
+       ↓
+Merge
+
+Use clear bug reports containing:
+
+- Bug ID
+- Module
+- Description
+- Steps to reproduce
+- Expected result
+- Actual result
+- Severity
+- Status
+
+==================================================
+17. DEPLOYMENT
+==================================================
+
+FRONTEND:
+
+Deploy React/Vite application to Vercel.
+
+BACKEND:
+
+Deploy Node.js/Express application to Render.
+
+DATABASE:
+
+Use Firebase Firestore.
+
+Environment variables must be configured separately on deployment platforms.
+
+Production flow:
+
+GitHub
+   ↓
+Vercel
+   ↓
+React Frontend
+   ↓
+Render
+   ↓
+Express Backend
+   ↓
+Firebase Firestore
+   ↓
+AI Service
+
+==================================================
+18. FINAL PROJECT STRUCTURE
+==================================================
+
+CODEX-AI-Interview-Simulator/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── .env.example
+│   └── package.json
+│
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── routes/
+│   ├── middleware/
+│   ├── services/
+│   ├── utils/
+│   ├── validators/
+│   ├── server.js
+│   ├── .env.example
+│   └── package.json
+│
+├── docs/
+│   ├── SRS.md
+│   ├── API.md
+│   ├── ARCHITECTURE.md
+│   └── TESTING.md
+│
+├── README.md
+└── .gitignore
+
+==================================================
+19. DEVELOPMENT ORDER
+==================================================
+
+PHASE 1:
+Project setup
+GitHub repository
+Branches
+README
+Environment configuration
+
+PHASE 2:
+Firebase database setup
+
+PHASE 3:
+Backend API
+
+PHASE 4:
+Authentication
+
+PHASE 5:
+Frontend Login/Register
+
+PHASE 6:
+Frontend Dashboard
+
+PHASE 7:
+AI question generation
+
+PHASE 8:
+AI answer evaluation
+
+PHASE 9:
+Results and feedback
+
+PHASE 10:
+Interview history
+
+PHASE 11:
+Skill recommendations
+
+PHASE 12:
+Full integration
+
+PHASE 13:
+Testing
+
+PHASE 14:
+Deployment
+
+==================================================
+20. FINAL ACCEPTANCE CRITERIA
+==================================================
+
+The project is complete only when:
+
+✓ User can register
+✓ User can login
+✓ User can update profile
+✓ User can select Technical or HR interview
+✓ User can select technology
+✓ User can select difficulty
+✓ AI generates interview questions
+✓ User can answer questions
+✓ Answers are stored
+✓ AI evaluates answers
+✓ Scores are generated
+✓ Feedback is generated
+✓ Strengths and weaknesses are identified
+✓ Skill gaps are identified
+✓ Learning resources are recommended
+✓ Results appear on dashboard
+✓ Interview history is saved
+✓ Performance can be tracked
+✓ Authentication is secure
+✓ Firebase Firestore works correctly
+✓ Frontend and backend communicate correctly
+✓ All major features are tested
+✓ Application is deployable
+✓ README documentation is complete
+
+IMPORTANT FINAL INSTRUCTION:
+
+Develop the project module by module.
+Do not generate fake completion messages.
+Verify each module before moving to the next phase.
+Keep frontend, backend, database, AI, testing and integration code separated.
+Do not use MongoDB or Mongoose.
+Use Firebase Firestore as the database.
+Do not expose secrets or API keys.
+Maintain clean, reusable, production-ready code.
