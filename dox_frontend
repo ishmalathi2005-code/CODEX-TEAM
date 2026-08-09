@@ -1,0 +1,332 @@
+Develop the complete frontend for "CODEX – AI Interview Simulator".
+
+GITHUB BRANCHES:
+- feature/frontend-login → Login & Register
+- feature/frontend-dashboard → Dashboard & Interview UI
+
+TECH STACK:
+- React.js
+- Vite
+- JavaScript
+- Tailwind CSS
+- React Router DOM
+- Axios
+- Recharts
+- Lucide React
+
+OBJECTIVE:
+Build a modern, responsive and professional AI Interview Simulator frontend for students and job seekers.
+
+DESIGN:
+- Clean modern dashboard
+- Professional student/developer UI
+- Responsive for desktop, tablet and mobile
+- Consistent spacing and typography
+- Reusable components
+- Loading states
+- Empty states
+- Error messages
+- Success notifications
+- Accessible forms
+- Do not use excessive animations
+- Do not use permanent mock data
+
+PAGES:
+
+1. LANDING PAGE
+- CODEX branding
+- AI Interview Simulator introduction
+- Features
+- How it works
+- Technical Interview
+- HR Interview
+- AI Evaluation
+- Performance Tracking
+- Login and Register buttons
+
+2. REGISTER PAGE
+Fields:
+- Name
+- Email
+- Password
+- Confirm Password
+- Education
+- Skills
+- Experience
+
+Features:
+- Form validation
+- Password visibility
+- Loading state
+- Error handling
+- Connect to backend register API
+
+3. LOGIN PAGE
+Fields:
+- Email
+- Password
+
+Features:
+- Form validation
+- Password visibility
+- Loading state
+- Error handling
+- JWT authentication
+- Redirect to dashboard after successful login
+
+4. DASHBOARD
+
+Display:
+- Welcome message
+- Candidate profile summary
+- Total interviews
+- Average score
+- Technical score
+- HR score
+- Recent interviews
+- Performance chart
+- Skill improvement section
+
+5. PROFILE PAGE
+Allow users to:
+- View profile
+- Edit profile
+- Update education
+- Update skills
+- Update experience
+
+6. INTERVIEW SETUP
+
+Fields:
+- Interview Type: Technical / HR
+- Technology
+- Difficulty: Easy / Medium / Hard
+- Number of Questions
+
+Button:
+"Start Interview"
+
+7. TECHNICAL INTERVIEW PAGE
+Display:
+- Question number
+- Total questions
+- AI-generated question
+- Answer textarea
+- Timer
+- Submit Answer
+- Next Question
+- Progress indicator
+
+8. HR INTERVIEW PAGE
+Display:
+- HR question
+- Answer input
+- Timer
+- Progress
+- Submit answer
+- Next question
+
+9. RESULTS PAGE
+
+Display:
+- Overall Score
+- Technical Score
+- HR Score
+- Question-wise scores
+- Correctness
+- Relevance
+- Communication
+- Strengths
+- Weaknesses
+- AI feedback
+- Skill gaps
+- Improvement suggestions
+
+10. INTERVIEW HISTORY
+
+Display:
+- Interview date
+- Interview type
+- Technology
+- Difficulty
+- Score
+- Status
+- View result button
+
+11. SKILL IMPROVEMENT
+
+Display:
+- Weak skills
+- Recommended topics
+- Learning resources
+- Improvement suggestions
+- Progress tracking
+
+COMPONENTS:
+
+Create reusable components:
+
+- Navbar
+- Sidebar
+- Button
+- Input
+- Select
+- Modal
+- LoadingSpinner
+- ErrorMessage
+- QuestionCard
+- AnswerBox
+- Timer
+- ProgressBar
+- ScoreCard
+- FeedbackCard
+- InterviewCard
+- PerformanceChart
+- SkillCard
+- ProtectedRoute
+
+FOLDER STRUCTURE:
+
+frontend/
+│
+├── src/
+│   ├── components/
+│   ├── pages/
+│   │   ├── Landing.jsx
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── Profile.jsx
+│   │   ├── InterviewSetup.jsx
+│   │   ├── TechnicalInterview.jsx
+│   │   ├── HRInterview.jsx
+│   │   ├── Results.jsx
+│   │   ├── InterviewHistory.jsx
+│   │   └── SkillImprovement.jsx
+│   │
+│   ├── services/
+│   │   └── api.js
+│   │
+│   ├── context/
+│   │   └── AuthContext.jsx
+│   │
+│   ├── hooks/
+│   ├── utils/
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── .env
+├── .env.example
+├── .gitignore
+└── package.json
+
+
+API CONNECTION:
+
+Use Axios.
+
+Backend URL:
+
+VITE_API_URL=http://localhost:5000/api
+
+Create a centralized Axios instance.
+
+Connect frontend to these APIs:
+
+POST /auth/register
+POST /auth/login
+
+GET /profile
+PUT /profile
+
+POST /interviews
+GET /interviews
+GET /interviews/:id
+
+POST /questions/generate
+POST /answers
+POST /evaluation
+
+GET /results/:interviewId
+GET /history
+GET /recommendations
+
+
+AUTHENTICATION:
+
+- Store authentication state securely.
+- Attach JWT to protected API requests.
+- Redirect unauthenticated users to Login.
+- Redirect authenticated users to Dashboard.
+- Implement logout.
+- Handle expired/invalid tokens.
+
+
+INTERVIEW FLOW:
+
+Interview Setup
+      ↓
+Start Interview
+      ↓
+Generate Questions
+      ↓
+Display Question
+      ↓
+Candidate Answers
+      ↓
+Submit Answer
+      ↓
+Next Question
+      ↓
+Complete Interview
+      ↓
+AI Evaluation
+      ↓
+Results Dashboard
+
+
+IMPORTANT:
+
+- Do not build backend code.
+- Do not build database code.
+- Do not hardcode API results.
+- Use backend APIs for real data.
+- Keep API logic inside services/api.js.
+- Use reusable components.
+- Keep code clean and modular.
+- Validate all forms.
+- Handle API errors properly.
+- Add loading states for API requests.
+- Make all pages responsive.
+- Ensure navigation works correctly.
+- Use realistic empty states when no data exists.
+
+
+ENVIRONMENT:
+
+Create .env.example:
+
+VITE_API_URL=http://localhost:5000/api
+
+
+FINAL REQUIREMENTS:
+
+The frontend must be ready to connect with:
+- Node.js + Express backend
+- Firebase Firestore
+- AI evaluation service
+
+Run:
+npm install
+npm run dev
+
+Create a README explaining:
+- Installation
+- Environment variables
+- Project structure
+- Available pages
+- API integration
+- Development commands
+
+Do not modify the backend or database modules.
