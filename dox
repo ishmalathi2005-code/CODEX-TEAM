@@ -1,0 +1,30 @@
+Develop the backend for CODEX AI Interview Simulator using Node.js, Express.js and REST APIs.
+
+Implement:
+- Authentication APIs
+- Candidate profile APIs
+- Interview APIs
+- Question APIs
+- Answer submission APIs
+- Evaluation APIs
+- Results APIs
+- Interview history APIs
+- Skill recommendation APIs
+
+Use JWT authentication, bcrypt, middleware, validation, CORS and centralized error handling.
+
+Create a clean structure:
+controllers/
+routes/
+middleware/
+services/
+config/
+utils/
+
+Connect to the database through Mongoose.
+Keep APIs modular and ready for frontend and AI integration.
+
+
+supabase connect to project url-https://bdpqgizcwoawmsexqvfy.supabase.co
+anon
+public-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkcHFnaXpjd29hd21zZXhxdmZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNDkyNjQsImV4cCI6MjEwMTgyNTI2NH0.i000MptFuoDNaxnYJNYSZ76if4OdQknLLTxd35dFitQ

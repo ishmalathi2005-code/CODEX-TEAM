@@ -1,5 +1,6 @@
 import React from 'react';
-import { Cpu, Tag } from 'lucide-react';
+import { Cpu, Tag, Volume2, VolumeX } from 'lucide-react';
+import { useTextToSpeech } from './VoiceAssistant';
 
 const QuestionCard = ({
   questionNumber,
@@ -9,10 +10,20 @@ const QuestionCard = ({
   difficulty = 'Medium',
   type = 'Technical'
 }) => {
+  const { speak, stop, isSpeaking } = useTextToSpeech();
+
   const diffBadgeColors = {
     Easy: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
     Medium: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
     Hard: 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+  };
+
+  const handleToggleVoice = () => {
+    if (isSpeaking) {
+      stop();
+    } else {
+      speak(questionText);
+    }
   };
 
   return (
@@ -30,6 +41,19 @@ const QuestionCard = ({
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleToggleVoice}
+            className={`p-1.5 rounded-lg border text-xs flex items-center gap-1.5 transition-all cursor-pointer ${
+              isSpeaking
+                ? 'bg-blue-600 border-blue-400 text-white shadow-lg animate-pulse'
+                : 'bg-gray-800 hover:bg-gray-700 text-blue-400 border-gray-700'
+            }`}
+            title="Read Question Aloud with AI Voice"
+          >
+            {isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+            <span className="font-medium text-[11px]">{isSpeaking ? 'Mute AI' : 'Speak'}</span>
+          </button>
           {technology && (
             <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-800 text-gray-300 text-xs font-medium rounded-lg border border-gray-700">
               <Cpu className="w-3 h-3 text-blue-400" />
