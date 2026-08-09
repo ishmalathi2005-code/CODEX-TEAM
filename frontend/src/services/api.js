@@ -43,10 +43,13 @@ export const authAPI = {
   register: async (userData) => {
     try {
       const response = await api.post('/auth/register', userData);
-      return response.data;
+      const resData = response.data.data || response.data;
+      return {
+        token: resData.accessToken || resData.token,
+        user: resData.user || resData,
+      };
     } catch (error) {
       if (isNetworkError(error)) {
-        // Fallback for demo when backend is offline
         const mockUser = {
           id: 'user_' + Date.now(),
           name: userData.name || 'Demo Candidate',
@@ -65,10 +68,13 @@ export const authAPI = {
   login: async (credentials) => {
     try {
       const response = await api.post('/auth/login', credentials);
-      return response.data;
+      const resData = response.data.data || response.data;
+      return {
+        token: resData.accessToken || resData.token,
+        user: resData.user || resData,
+      };
     } catch (error) {
       if (isNetworkError(error)) {
-        // Fallback demo login when backend is offline
         const mockUser = {
           id: 'user_101',
           name: credentials.email ? credentials.email.split('@')[0] : 'Alex Rivera',
@@ -88,8 +94,8 @@ export const authAPI = {
 export const profileAPI = {
   getProfile: async () => {
     try {
-      const response = await api.get('/profile');
-      return response.data;
+      const response = await api.get('/profile/me');
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         const storedUser = localStorage.getItem('codex_user');
@@ -109,8 +115,8 @@ export const profileAPI = {
 
   updateProfile: async (profileData) => {
     try {
-      const response = await api.put('/profile', profileData);
-      return response.data;
+      const response = await api.put('/profile/me', profileData);
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         const currentUser = JSON.parse(localStorage.getItem('codex_user') || '{}');
@@ -127,7 +133,7 @@ export const interviewAPI = {
   createInterview: async (setupData) => {
     try {
       const response = await api.post('/interviews', setupData);
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return {
@@ -147,7 +153,7 @@ export const interviewAPI = {
   getInterviews: async () => {
     try {
       const response = await api.get('/interviews');
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return getMockHistory();
@@ -159,7 +165,7 @@ export const interviewAPI = {
   getInterviewById: async (id) => {
     try {
       const response = await api.get(`/interviews/${id}`);
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return {
@@ -181,7 +187,7 @@ export const questionAPI = {
   generateQuestions: async (payload) => {
     try {
       const response = await api.post('/questions/generate', payload);
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return getMockQuestions(payload.technology || 'React.js', payload.type || 'Technical', payload.count || 5);
@@ -193,7 +199,7 @@ export const questionAPI = {
   submitAnswer: async (answerPayload) => {
     try {
       const response = await api.post('/answers', answerPayload);
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return {
@@ -209,7 +215,7 @@ export const questionAPI = {
   submitEvaluation: async (evaluationPayload) => {
     try {
       const response = await api.post('/evaluation', evaluationPayload);
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return {
@@ -229,7 +235,7 @@ export const analyticsAPI = {
   getResults: async (interviewId) => {
     try {
       const response = await api.get(`/results/${interviewId}`);
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return getMockResults(interviewId);
@@ -241,7 +247,7 @@ export const analyticsAPI = {
   getHistory: async () => {
     try {
       const response = await api.get('/history');
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return getMockHistory();
@@ -253,7 +259,7 @@ export const analyticsAPI = {
   getRecommendations: async () => {
     try {
       const response = await api.get('/recommendations');
-      return response.data;
+      return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
         return getMockRecommendations();
@@ -262,6 +268,29 @@ export const analyticsAPI = {
     }
   }
 };
+
+export const resumeAPI = {
+  analyzeResume: async (payload) => {
+    try {
+      const response = await api.post('/resume/analyze', payload);
+      return response.data.data || response.data;
+    } catch (error) {
+      if (isNetworkError(error)) {
+        return {
+          extractedSkills: ['React.js', 'Node.js', 'System Architecture', 'PostgreSQL'],
+          summary: 'Extracted 4 key technical domains targeting Full Stack Engineer based on uploaded resume.',
+          questions: [
+            { id: 'res_1', text: 'Walk me through how you designed state management and component breakdown in your recent projects.', type: 'technical', category: 'React.js', difficulty: payload.difficulty || 'Medium' },
+            { id: 'res_2', text: 'Your resume mentions microservices and API gateways. How do you handle authentication across services?', type: 'technical', category: 'Node.js', difficulty: payload.difficulty || 'Medium' },
+            { id: 'res_3', text: 'Describe a challenging technical debt problem you resolved on a project mentioned in your work history.', type: 'behavioral', category: 'Problem Solving', difficulty: payload.difficulty || 'Medium' },
+          ]
+        };
+      }
+      throw error;
+    }
+  }
+};
+
 
 // Internal Mock Helper Data for Demo/Offline Mode
 function getMockQuestions(tech, type, count) {

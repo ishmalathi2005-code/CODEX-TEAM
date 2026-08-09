@@ -50,7 +50,12 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('codex_user', JSON.stringify(userObj));
       return { success: true, user: userObj };
     } catch (err) {
-      const msg = err.response?.data?.message || 'Login failed. Please check your credentials.';
+      const serverMsg = err.response?.data?.message;
+      const serverErrors = err.response?.data?.errors;
+      let msg = serverMsg || err.message || 'Login failed. Please check your credentials.';
+      if (serverErrors && Array.isArray(serverErrors) && serverErrors.length > 0) {
+        msg = `${serverMsg || 'Validation failed'}: ${serverErrors.map(e => e.message || e.msg).join(', ')}`;
+      }
       setError(msg);
       throw new Error(msg);
     }
@@ -69,7 +74,12 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('codex_user', JSON.stringify(userObj));
       return { success: true, user: userObj };
     } catch (err) {
-      const msg = err.response?.data?.message || 'Registration failed. Please try again.';
+      const serverMsg = err.response?.data?.message;
+      const serverErrors = err.response?.data?.errors;
+      let msg = serverMsg || err.message || 'Registration failed. Please try again.';
+      if (serverErrors && Array.isArray(serverErrors) && serverErrors.length > 0) {
+        msg = `${serverMsg || 'Validation failed'}: ${serverErrors.map(e => e.message || e.msg).join(', ')}`;
+      }
       setError(msg);
       throw new Error(msg);
     }

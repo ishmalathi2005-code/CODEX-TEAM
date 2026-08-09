@@ -1,7 +1,10 @@
-node_modules
-frontend/node_modules
-frontend/dist
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
 .env
 frontend/.env
 *.log
 .DS_Store
+Thumbs.db
+coverage/

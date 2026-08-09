@@ -1,6 +1,7 @@
 import React from 'react';
-import { Code, MessageSquare, CornerDownLeft } from 'lucide-react';
+import { Code, MessageSquare, CornerDownLeft, Mic, MicOff } from 'lucide-react';
 import Button from './Button';
+import { useSpeechToText } from './VoiceAssistant';
 
 const AnswerBox = ({
   value,
@@ -12,6 +13,11 @@ const AnswerBox = ({
   mode = 'text' // 'text' or 'code'
 }) => {
   const charCount = value ? value.length : 0;
+  const { isListening, toggleListening, supported } = useSpeechToText({
+    onTranscriptChange: (text) => {
+      onChange(text);
+    }
+  });
 
   return (
     <div className="w-full bg-[#111827] border border-gray-800 rounded-2xl p-5 shadow-xl">
@@ -20,7 +26,25 @@ const AnswerBox = ({
           {mode === 'code' ? <Code className="w-4 h-4 text-blue-400" /> : <MessageSquare className="w-4 h-4 text-indigo-400" />}
           {mode === 'code' ? 'Code / Technical Response' : 'Detailed Explanation Response'}
         </span>
-        <span>{charCount} characters</span>
+
+        <div className="flex items-center gap-3">
+          {supported && (
+            <button
+              type="button"
+              onClick={toggleListening}
+              className={`px-2.5 py-1 rounded-lg border text-xs flex items-center gap-1.5 transition-all cursor-pointer ${
+                isListening
+                  ? 'bg-red-600 border-red-400 text-white shadow-lg shadow-red-500/20 animate-bounce'
+                  : 'bg-gray-800 hover:bg-gray-700 text-indigo-400 border-gray-700'
+              }`}
+              title="Dictate response with Microphone"
+            >
+              {isListening ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5 text-indigo-400" />}
+              <span className="font-semibold text-[11px]">{isListening ? 'Listening...' : 'Voice Dictate'}</span>
+            </button>
+          )}
+          <span>{charCount} characters</span>
+        </div>
       </div>
 
       <textarea
