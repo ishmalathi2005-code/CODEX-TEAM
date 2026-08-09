@@ -28,10 +28,13 @@ const InterviewHistory = () => {
   }, []);
 
   const filteredHistory = history.filter((item) => {
-    const matchesType = selectedType === 'All' || item.type === selectedType;
-    const matchesSearch =
-      item.technology.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.difficulty.toLowerCase().includes(searchQuery.toLowerCase());
+    const techStr = String(item?.technology || item?.domain || '').toLowerCase();
+    const diffStr = String(item?.difficulty || '').toLowerCase();
+    const queryStr = searchQuery.toLowerCase();
+    const itemType = String(item?.type || '').toLowerCase();
+
+    const matchesType = selectedType === 'All' || itemType === selectedType.toLowerCase();
+    const matchesSearch = techStr.includes(queryStr) || diffStr.includes(queryStr);
     return matchesType && matchesSearch;
   });
 

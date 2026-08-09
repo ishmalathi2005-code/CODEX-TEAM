@@ -8,7 +8,7 @@ const emailService = require('../services/emailService');
 
 // ─── Register ─────────────────────────────────────────────────────────────────
 exports.register = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, education, skills, experience } = req.body;
 
   // Check existing
   const { data: existing } = await supabase.from('users').select('id').eq('email', email).maybeSingle();
@@ -25,8 +25,16 @@ exports.register = asyncHandler(async (req, res) => {
 
   if (error) return errorResponse(res, error.message, 500);
 
-  // Auto-create empty profile
-  await supabase.from('profiles').insert({ user_id: user.id });
+  // Save profile with candidate profile details
+  const skillsList = Array.isArray(skills) ? skills : (typeof skills === 'string' ? skills.split(',').map(s => s.trim()).filter(Boolean) : []);
+  const expYears = parseInt(experience, 10) || (typeof experience === 'string' && experience.toLowerCase().includes('fresh') ? 0 : 1);
+
+  await supabase.from('profiles').insert({
+    user_id: user.id,
+    bio: education ? `Education: ${education}` : null,
+    skills: skillsList,
+    experience_years: expYears,
+  });
 
   const accessToken = generateAccessToken(user.id, user.role);
   const refreshToken = generateRefreshToken(user.id);

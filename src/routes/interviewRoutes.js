@@ -8,10 +8,10 @@ const validate = require('../middleware/validate');
 router.use(protect);
 
 const createRules = [
-  body('title').trim().notEmpty().withMessage('Interview title is required'),
-  body('type').isIn(['technical', 'behavioral', 'mixed', 'coding', 'system-design']).withMessage('Invalid interview type'),
-  body('difficulty').optional().isIn(['easy', 'medium', 'hard']).withMessage('Invalid difficulty'),
-  body('durationMinutes').optional().isInt({ min: 5, max: 180 }).withMessage('Duration must be between 5 and 180 minutes'),
+  body('title').optional().trim(),
+  body('type').optional().customSanitizer(v => String(v || 'technical').toLowerCase()),
+  body('difficulty').optional().customSanitizer(v => String(v || 'medium').toLowerCase()),
+  body('durationMinutes').optional().toInt(),
 ];
 
 router.post('/', createRules, validate, interviewController.createInterview);

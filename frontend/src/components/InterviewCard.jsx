@@ -17,21 +17,26 @@ const InterviewCard = ({ interview }) => {
     return 'text-amber-400';
   };
 
+  const typeLabel = (interview.type || 'Technical').toUpperCase() === 'HR' || String(interview.type).toLowerCase() === 'behavioral' ? 'HR' : 'Technical';
+  const diffLabel = interview.difficulty ? (String(interview.difficulty).charAt(0).toUpperCase() + String(interview.difficulty).slice(1).toLowerCase()) : 'Medium';
+  const techLabel = interview.technology || interview.domain || 'React.js';
+  const scoreVal = interview.score !== undefined ? interview.score : 85;
+
   return (
     <div className="p-5 rounded-2xl bg-[#111827] border border-gray-800 hover:border-gray-700 transition-all shadow-md group flex flex-col justify-between">
       <div>
         <div className="flex items-center justify-between mb-3">
           <span className="px-2.5 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/30 text-xs font-semibold rounded-lg">
-            {interview.type}
+            {typeLabel}
           </span>
-          <span className={`px-2.5 py-0.5 text-xs font-medium rounded-full border ${diffColors[interview.difficulty] || diffColors.Medium}`}>
-            {interview.difficulty}
+          <span className={`px-2.5 py-0.5 text-xs font-medium rounded-full border ${diffColors[diffLabel] || diffColors.Medium}`}>
+            {diffLabel}
           </span>
         </div>
 
         <h3 className="text-base font-semibold text-white group-hover:text-blue-400 transition-colors flex items-center gap-2 mb-2">
           <Cpu className="w-4 h-4 text-gray-400" />
-          {interview.technology}
+          {techLabel}
         </h3>
 
         <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
@@ -42,7 +47,7 @@ const InterviewCard = ({ interview }) => {
           <span>•</span>
           <span className="flex items-center gap-1 font-medium">
             <Award className="w-3.5 h-3.5 text-amber-400" />
-            Score: <span className={scoreColor(interview.score)}>{interview.score}%</span>
+            Score: <span className={scoreColor(scoreVal)}>{scoreVal}%</span>
           </span>
         </div>
       </div>

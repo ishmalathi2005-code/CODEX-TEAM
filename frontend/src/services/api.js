@@ -94,7 +94,7 @@ export const authAPI = {
 export const profileAPI = {
   getProfile: async () => {
     try {
-      const response = await api.get('/profile');
+      const response = await api.get('/profile/me');
       return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
@@ -115,7 +115,7 @@ export const profileAPI = {
 
   updateProfile: async (profileData) => {
     try {
-      const response = await api.put('/profile', profileData);
+      const response = await api.put('/profile/me', profileData);
       return response.data.data || response.data;
     } catch (error) {
       if (isNetworkError(error)) {
@@ -268,6 +268,29 @@ export const analyticsAPI = {
     }
   }
 };
+
+export const resumeAPI = {
+  analyzeResume: async (payload) => {
+    try {
+      const response = await api.post('/resume/analyze', payload);
+      return response.data.data || response.data;
+    } catch (error) {
+      if (isNetworkError(error)) {
+        return {
+          extractedSkills: ['React.js', 'Node.js', 'System Architecture', 'PostgreSQL'],
+          summary: 'Extracted 4 key technical domains targeting Full Stack Engineer based on uploaded resume.',
+          questions: [
+            { id: 'res_1', text: 'Walk me through how you designed state management and component breakdown in your recent projects.', type: 'technical', category: 'React.js', difficulty: payload.difficulty || 'Medium' },
+            { id: 'res_2', text: 'Your resume mentions microservices and API gateways. How do you handle authentication across services?', type: 'technical', category: 'Node.js', difficulty: payload.difficulty || 'Medium' },
+            { id: 'res_3', text: 'Describe a challenging technical debt problem you resolved on a project mentioned in your work history.', type: 'behavioral', category: 'Problem Solving', difficulty: payload.difficulty || 'Medium' },
+          ]
+        };
+      }
+      throw error;
+    }
+  }
+};
+
 
 // Internal Mock Helper Data for Demo/Offline Mode
 function getMockQuestions(tech, type, count) {

@@ -7,13 +7,43 @@ exports.getHistory = asyncHandler(async (req, res) => {
   const from = (page - 1) * limit;
   const to = from + Number(limit) - 1;
 
-  let query = supabase.from('interviews').select('*', { count: 'exact' })
-    .eq('candidate_id', req.user.id).order('created_at', { ascending: false }).range(from, to);
+  let query = supabase.from('interviews')
+    .select('*, results(total_score, grade)', { count: 'exact' })
+    .eq('candidate_id', req.user.id)
+    .order('created_at', { ascending: false })
+    .range(from, to);
   if (status) query = query.eq('status', status);
   if (type) query = query.eq('type', type);
 
   const { data, error, count } = await query;
-  return paginatedResponse(res, 'History retrieved.', data || [], { total: count || 0, page: Number(page), limit: Number(limit), totalPages: Math.ceil((count || 0) / limit) });
+  if (error) return errorResponse(res, error.message, 500);
+
+  const formattedData = (data || []).map(item => {
+    const rawType = (item.type || 'technical').toLowerCase();
+    const formattedType = rawType === 'behavioral' || rawType === 'hr' ? 'HR' : 'Technical';
+    const techName = item.technology || item.domain || 'React.js';
+    const diff = item.difficulty ? item.difficulty.charAt(0).toUpperCase() + item.difficulty.slice(1).toLowerCase() : 'Medium';
+    const scoreVal = item.results?.total_score !== undefined ? item.results.total_score : (item.score !== undefined ? item.score : 85);
+    const formattedDate = item.created_at ? new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent';
+
+    return {
+      id: item.id,
+      title: item.title,
+      type: formattedType,
+      technology: techName,
+      difficulty: diff,
+      score: scoreVal,
+      date: formattedDate,
+      status: item.status || 'Completed',
+    };
+  });
+
+  return paginatedResponse(res, 'History retrieved.', formattedData, {
+    total: count || 0,
+    page: Number(page),
+    limit: Number(limit),
+    totalPages: Math.ceil((count || 0) / limit)
+  });
 });
 
 exports.getStats = asyncHandler(async (req, res) => {

@@ -3,11 +3,21 @@ const asyncHandler = require('../utils/asyncHandler');
 const { successResponse, createdResponse, errorResponse, paginatedResponse } = require('../utils/apiResponse');
 
 exports.createInterview = asyncHandler(async (req, res) => {
-  const { title, type, difficulty, domain, durationMinutes, notes, questionIds } = req.body;
+  const { title, type, difficulty, domain, technology, durationMinutes, notes, questionIds } = req.body;
+  const targetDomain = domain || technology || 'React.js';
+  const targetType = (type || 'technical').toLowerCase();
+  const targetDiff = (difficulty || 'medium').toLowerCase();
+  const defaultTitle = title || `${targetDomain} ${targetType.charAt(0).toUpperCase() + targetType.slice(1)} Session`;
+
   const { data, error } = await supabase.from('interviews').insert({
-    candidate_id: req.user.id, title, type,
-    difficulty: difficulty || 'medium', domain,
-    duration_minutes: durationMinutes || 30, notes,
+    candidate_id: req.user.id,
+    title: defaultTitle,
+    type: targetType === 'hr' ? 'behavioral' : (targetType === 'resume' ? 'technical' : targetType),
+    difficulty: targetDiff,
+    domain: targetDomain,
+    duration_minutes: Number(durationMinutes) || 30,
+    notes,
+    status: 'in_progress',
     total_questions: questionIds ? questionIds.length : 0,
   }).select().single();
   if (error) return errorResponse(res, error.message, 500);

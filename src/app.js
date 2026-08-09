@@ -16,6 +16,7 @@ const evaluationRoutes = require('./routes/evaluationRoutes');
 const resultRoutes = require('./routes/resultRoutes');
 const historyRoutes = require('./routes/historyRoutes');
 const skillRoutes = require('./routes/skillRoutes');
+const resumeRoutes = require('./routes/resumeRoutes');
 
 const app = express();
 
@@ -77,6 +78,58 @@ app.use('/api/results', resultRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/skills', skillRoutes);
 app.use('/api/recommendations', skillRoutes); // Alias for skill recommendations
+app.use('/api/resume', resumeRoutes);
+
+// ─── Database Records Viewer API ──────────────────────────────────────────────
+const { supabase } = require('./config/db');
+app.get('/api/admin/db', async (req, res) => {
+  try {
+    const tables = ['users', 'profiles', 'interviews', 'questions', 'answers', 'evaluations', 'results', 'skill_recommendations'];
+    const dbData = {};
+    for (const t of tables) {
+      const { data } = await supabase.from(t).select('*');
+      dbData[t] = (data || []).map(r => {
+        const { password, refresh_token, ...safe } = r;
+        return safe;
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: 'Database records retrieved successfully',
+      tablesCount: Object.keys(dbData).length,
+      data: dbData
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+app.post('/api/admin/seed', async (req, res) => {
+  try {
+    const bcrypt = require('bcryptjs');
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash('Password123!', salt);
+
+    const u1 = await supabase.from('users').insert({ name: 'Alex Rivera', email: 'alex@codex.ai', password: hash }).select().single();
+    const u2 = await supabase.from('users').insert({ name: 'Sarah Chen', email: 'sarah@codex.ai', password: hash }).select().single();
+
+    if (u1.data) await supabase.from('profiles').insert({ user_id: u1.data.id, bio: 'Frontend Lead', skills: ['React', 'Node', 'TypeScript'] });
+    if (u2.data) await supabase.from('profiles').insert({ user_id: u2.data.id, bio: 'Backend Developer', skills: ['Python', 'Django', 'PostgreSQL'] });
+
+    const q = await supabase.from('questions').insert([
+      { text: 'Explain the Virtual DOM in React.js and reconciliation.', type: 'technical', category: 'React.js', difficulty: 'medium' },
+      { text: 'How do you prevent memory leaks in Node.js event listeners?', type: 'technical', category: 'Node.js', difficulty: 'medium' },
+      { text: 'Describe a situation where you resolved team technical disagreement.', type: 'behavioral', category: 'HR', difficulty: 'medium' }
+    ]).select();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Demo database seeded successfully with users, profiles, and question bank.',
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
 
 // ─── 404 Handler ──────────────────────────────────────────────────────────────
 app.use('*', (req, res) => {

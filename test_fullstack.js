@@ -47,9 +47,9 @@ function request(options, bodyData) {
   };
 
   // 3. Profile
-  const profile = await request({ hostname: 'localhost', port: 5000, path: '/api/profile', method: 'GET', headers: authHeaders });
-  console.log(`3. GET /api/profile -> Status: ${profile.status}`, profile.body.success ? '✅' : '❌');
-
+  const profile = await request({ hostname: 'localhost', port: 5000, path: '/api/profile/me', method: 'GET', headers: authHeaders });
+  console.log(`3. GET /api/profile/me -> Status: ${profile.status}`, profile.body.success ? '✅' : '❌');
+  
   // 4. Create Interview
   const interview = await request({
     hostname: 'localhost', port: 5000, path: '/api/interviews', method: 'POST', headers: authHeaders
@@ -89,8 +89,8 @@ function request(options, bodyData) {
   console.log(`9. GET /api/history -> Status: ${history.status}`, history.body.success ? '✅' : '❌');
 
   // 10. Recommendations
-  const recs = await request({ hostname: 'localhost', port: 5000, path: '/api/recommendations', method: 'GET', headers: authHeaders });
-  console.log(`10. GET /api/recommendations -> Status: ${recs.status}`, (recs.status === 200 || recs.status === 404) ? '✅' : '❌');
+  const recs = await request({ hostname: 'localhost', port: 5000, path: '/api/skills/recommendations', method: 'GET', headers: authHeaders });
+  console.log(`10. GET /api/skills/recommendations -> Status: ${recs.status}`, (recs.status === 200 || recs.status === 404) ? '✅' : '❌');
 
   console.log('\n🎉 ALL 10 ENDPOINTS ARE 100% CONNECTED & WORKING!\n');
 })();

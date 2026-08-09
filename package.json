@@ -27,6 +27,7 @@
   "author": "CODEX Team",
   "license": "MIT",
   "dependencies": {
+    "@google/genai": "^2.16.0",
     "@prisma/client": "^5.16.0",
     "@supabase/server": "^1.4.1",
     "@supabase/supabase-js": "^2.44.4",

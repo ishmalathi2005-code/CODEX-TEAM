@@ -8,8 +8,8 @@ const validate = require('../middleware/validate');
 router.use(protect);
 
 const submitRules = [
-  body('interviewId').notEmpty().withMessage('Interview ID is required').isMongoId(),
-  body('questionId').notEmpty().withMessage('Question ID is required').isMongoId(),
+  body('interviewId').notEmpty().withMessage('Interview ID is required'),
+  body('questionId').notEmpty().withMessage('Question ID is required'),
 ];
 
 router.post('/', submitRules, validate, answerController.submitAnswer);
